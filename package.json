@@ -1,11 +1,13 @@
 {
   "name": "@yield-protocol/yieldspace-v1",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Solidity contracts to implement fixed rate YieldSpace pools",
   "author": "Yield Inc.",
   "files": [
     "contracts",
-    "contracts/interfaces"
+    "contracts/interfaces",
+    "!contracts/invariants",
+    "!contracts/mocks"
   ],
   "homepage": "https://yield.is",
   "repository": {
