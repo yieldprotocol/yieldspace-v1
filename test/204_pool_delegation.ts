@@ -1,8 +1,8 @@
 const Pool = artifacts.require('Pool')
 
 import { keccak256, toUtf8Bytes } from 'ethers/lib/utils'
-import { toWad, toRay, mulRay } from '../shared/utils'
-import { YieldEnvironmentLite, Contract } from '../shared/fixtures'
+import { toWad, toRay, mulRay } from './shared/utils'
+import { YieldEnvironmentLite, Contract } from './shared/fixtures'
 // @ts-ignore
 import { BN, expectRevert } from '@openzeppelin/test-helpers'
 import { assert, expect } from 'chai'

@@ -1,9 +1,23 @@
 {
-  "name": "fyDai",
-  "version": "1.0",
-  "description": "",
-  "main": "index.js",
-  "author": "",
+  "name": "@yield-protocol/yieldspace-v1",
+  "version": "0.9.0",
+  "description": "Solidity contracts to implement fixed rate YieldSpace pools",
+  "author": "Yield Inc.",
+  "files": [
+    "contracts",
+    "contracts/interfaces"
+  ],
+  "homepage": "https://yield.is",
+  "repository": {
+    "url": "https://github.com/yieldprotocol/yield-utils",
+    "type": "git"
+  },
+  "bugs": {
+    "url": "https://github.com/yieldprotocol/yield-utils/issues"
+  },
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
     "build": "buidler compile",
     "test": "buidler test test/*.ts test/pool/*.ts",
@@ -17,6 +31,7 @@
     "lint:sol": "solhint -f table contracts/**/*.sol"
   },
   "devDependencies": {
+    "@yield-protocol/utils": "^0.9.1",
     "@nomiclabs/buidler": "^1.3.8",
     "@nomiclabs/buidler-truffle5": "^1.3.4",
     "@nomiclabs/buidler-web3": "^1.3.4",
@@ -38,5 +53,6 @@
     "truffle-typings": "^1.0.8",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
-  }
+  },
+  "license": "GPL-3.0-or-later"
 }

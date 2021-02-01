@@ -2,7 +2,7 @@ const YieldMath = artifacts.require('YieldMathWrapper')
 
 // @ts-ignore
 import helper from 'ganache-time-traveler'
-import { Contract } from '../shared/fixtures'
+import { Contract } from './shared/fixtures'
 // @ts-ignore
 import { BN, expectRevert } from '@openzeppelin/test-helpers'
 

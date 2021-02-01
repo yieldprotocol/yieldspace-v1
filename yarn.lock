@@ -911,6 +911,13 @@
     typedarray-to-buffer "^3.1.5"
     yaeti "^0.0.6"
 
+"@yield-protocol/utils@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@yield-protocol/utils/-/utils-0.9.1.tgz#22c892d3d3ec76dabc75c1d55c32e518c6ee6e23"
+  integrity sha512-JpH9fHIqBrcGbpxEhTNTz+UyX9V+37ICt3qEIJfACFmXxXuiWiU9uaSyaKnHiVWt6GRFi1yAxit50noeNHVFUA==
+  dependencies:
+    "@openzeppelin/contracts" "^3.1.0"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"

@@ -3,12 +3,11 @@ pragma solidity ^0.6.10;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@yield-protocol/utils/contracts/Delegable.sol";
+import "@yield-protocol/utils/contracts/ERC20Permit.sol";
+import "./interfaces/IFYDai.sol";
+import "./interfaces/IPool.sol";
 import "./YieldMath.sol";
-import "../helpers/Delegable.sol";
-import "../helpers/ERC20Permit.sol";
-import "../interfaces/IPot.sol";
-import "../interfaces/IFYDai.sol";
-import "../interfaces/IPool.sol";
 
 
 /// @dev The Pool contract exchanges Dai for fyDai at a price defined by a specific formula.
