@@ -1,10 +1,11 @@
 const Pool = artifacts.require('Pool')
+const Dai = artifacts.require('Dai')
+const FYDai = artifacts.require('FYDai')
 
-import { keccak256, toUtf8Bytes } from 'ethers/lib/utils'
+import { Contract } from './shared/fixtures'
 // @ts-ignore
 import helper from 'ganache-time-traveler'
 import { toWad, toRay, mulRay } from './shared/utils'
-import { YieldEnvironmentLite, Contract } from './shared/fixtures'
 // @ts-ignore
 import { BN, expectRevert } from '@openzeppelin/test-helpers'
 import { assert, expect } from 'chai'
@@ -24,8 +25,6 @@ contract('Pool', async (accounts) => {
   let snapshot: any
   let snapshotId: string
 
-  let env: YieldEnvironmentLite
-
   let dai: Contract
   let pool: Contract
   let fyDai1: Contract
@@ -39,15 +38,11 @@ contract('Pool', async (accounts) => {
     // Setup fyDai
     const block = await web3.eth.getBlockNumber()
     maturity1 = (await web3.eth.getBlock(block)).timestamp + 31556952 // One year
-    env = await YieldEnvironmentLite.setup([maturity1])
-    dai = env.maker.dai
-    fyDai1 = env.fyDais[0]
+    dai = await Dai.new("DAI", "DAI")
+    fyDai1 = await FYDai.new("FYDAI", "FYDAI", maturity1)
 
     // Setup Pool
     pool = await Pool.new(dai.address, fyDai1.address, 'Name', 'Symbol', { from: owner })
-
-    // Allow owner to mint fyDai the sneaky way, without recording a debt in controller
-    await fyDai1.orchestrate(owner, keccak256(toUtf8Bytes('mint(address,uint256)')), { from: owner })
   })
 
   afterEach(async () => {
@@ -92,7 +87,7 @@ contract('Pool', async (accounts) => {
   })
 
   it('adds initial liquidity', async () => {
-    await env.maker.getDai(user1, initialDai, rate1)
+    await dai.mint(user1, initialDai)
 
     console.log('        initial liquidity...')
     console.log('        daiReserves: %d', initialDai.toString())
@@ -118,7 +113,7 @@ contract('Pool', async (accounts) => {
 
   describe('with initial liquidity', () => {
     beforeEach(async () => {
-      await env.maker.getDai(user1, initialDai, rate1)
+      await dai.mint(user1, initialDai)
 
       await dai.approve(pool.address, initialDai, { from: user1 })
       await pool.mint(user1, user1, initialDai, { from: user1 })
@@ -302,7 +297,7 @@ contract('Pool', async (accounts) => {
 
       it('sells dai', async () => {
         const oneToken = toWad(1)
-        await env.maker.getDai(from, daiTokens1, rate1)
+        await dai.mint(from, initialDai)
 
         // fyDaiOutForDaiIn formula: https://www.desmos.com/calculator/8eczy19er3
 
@@ -326,7 +321,7 @@ contract('Pool', async (accounts) => {
 
         await pool.addDelegate(operator, { from: from })
         await dai.approve(pool.address, oneToken, { from: from })
-        const event = (await pool.sellDai(from, to, oneToken, { from: operator })).logs[2]
+        const event = (await pool.sellDai(from, to, oneToken, { from: operator })).logs[3]
 
         const expectedFYDaiOut = new BN(oneToken.toString()).mul(new BN('117440')).div(new BN('100000'))
         const fyDaiOut = new BN(await fyDai1.balanceOf(to))
@@ -351,7 +346,7 @@ contract('Pool', async (accounts) => {
 
       it('buys fyDai', async () => {
         const oneToken = toWad(1)
-        await env.maker.getDai(from, daiTokens1, rate1)
+        await dai.mint(from, initialDai)
 
         // daiInForFYDaiOut formula: https://www.desmos.com/calculator/grjod0grzp
 
@@ -375,7 +370,7 @@ contract('Pool', async (accounts) => {
 
         await pool.addDelegate(operator, { from: from })
         await dai.approve(pool.address, daiTokens1, { from: from })
-        const event = (await pool.buyFYDai(from, to, oneToken, { from: operator })).logs[2]
+        const event = (await pool.buyFYDai(from, to, oneToken, { from: operator })).logs[3]
 
         const expectedDaiIn = new BN(oneToken.toString()).mul(new BN('85110')).div(new BN('100000'))
         const daiIn = new BN(daiTokens1.toString()).sub(new BN(await dai.balanceOf(from)))

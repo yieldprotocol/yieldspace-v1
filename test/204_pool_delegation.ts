@@ -1,8 +1,10 @@
 const Pool = artifacts.require('Pool')
+const Dai = artifacts.require('Dai')
+const FYDai = artifacts.require('FYDai')
 
 import { keccak256, toUtf8Bytes } from 'ethers/lib/utils'
 import { toWad, toRay, mulRay } from './shared/utils'
-import { YieldEnvironmentLite, Contract } from './shared/fixtures'
+import { Contract } from './shared/fixtures'
 // @ts-ignore
 import { BN, expectRevert } from '@openzeppelin/test-helpers'
 import { assert, expect } from 'chai'
@@ -20,30 +22,22 @@ contract('Pool - Delegation', async (accounts) => {
   let fyDai1: Contract
   let dai: Contract
   let pool: Contract
-  let env: Contract
 
   beforeEach(async () => {
     // Setup fyDai
     const block = await web3.eth.getBlockNumber()
     maturity1 = (await web3.eth.getBlock(block)).timestamp + 31556952 // One year
-
-    env = await YieldEnvironmentLite.setup([maturity1])
-    dai = env.maker.dai
-    fyDai1 = env.fyDais[0]
+    dai = await Dai.new("DAI", "DAI")
+    fyDai1 = await FYDai.new("FYDAI", "FYDAI", maturity1)
 
     // Setup Pool
     pool = await Pool.new(dai.address, fyDai1.address, 'Name', 'Symbol', { from: owner })
-
-    // Test setup
-
-    // Allow owner to mint fyDai the sneaky way, without recording a debt in controller
-    await fyDai1.orchestrate(owner, keccak256(toUtf8Bytes('mint(address,uint256)')), { from: owner })
   })
 
   describe('with liquidity', () => {
     beforeEach(async () => {
       const daiReserves = daiTokens1
-      await env.maker.getDai(from, daiReserves, rate1)
+      await dai.mint(from, daiReserves)
 
       await dai.approve(pool.address, daiReserves, { from: from })
       await pool.mint(from, from, daiReserves, { from: from })
@@ -186,7 +180,7 @@ contract('Pool - Delegation', async (accounts) => {
 
       it('sells dai with delegation', async () => {
         const oneToken = toWad(1)
-        await env.maker.getDai(from, daiTokens1, rate1)
+        await dai.mint(from, daiTokens1)
 
         // fyDaiOutForChaiIn formula: https://www.desmos.com/calculator/8eczy19er3
 
@@ -217,7 +211,7 @@ contract('Pool - Delegation', async (accounts) => {
 
       it('buys fyDai with delegation', async () => {
         const oneToken = toWad(1)
-        await env.maker.getDai(from, daiTokens1, rate1)
+        await dai.mint(from, daiTokens1)
 
         // chaiInForFYDaiOut formula: https://www.desmos.com/calculator/grjod0grzp
 

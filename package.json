@@ -1,6 +1,6 @@
 {
   "name": "@yield-protocol/yieldspace-v1",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "Solidity contracts to implement fixed rate YieldSpace pools",
   "author": "Yield Inc.",
   "files": [
@@ -20,12 +20,12 @@
   },
   "scripts": {
     "build": "buidler compile",
-    "test": "buidler test test/*.ts test/pool/*.ts",
+    "test": "buidler test test/*.ts",
     "test:non-functional": "buidler test test/non-functional/*.ts",
     "ganache": "./scripts/ganache.sh",
     "deploy:ganache": "yarn ganache && truffle migrate",
     "mainnet-ganache": "./scripts/mainnet-ganache.sh",
-    "coverage": "buidler coverage --network coverage --temp build --testfiles 'test/*.ts test/pool/*.ts'",
+    "coverage": "buidler coverage --network coverage --temp build --testfiles 'test/*.ts'",
     "lint": "prettier ./test/**/*.ts --check",
     "lint:ts": "prettier ./test/**/*.ts --write",
     "lint:sol": "solhint -f table contracts/**/*.sol"
