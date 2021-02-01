@@ -1,6 +1,6 @@
 {
   "name": "@yield-protocol/yieldspace-v1",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Solidity contracts to implement fixed rate YieldSpace pools",
   "author": "Yield Inc.",
   "files": [
@@ -11,11 +11,11 @@
   ],
   "homepage": "https://yield.is",
   "repository": {
-    "url": "https://github.com/yieldprotocol/yield-utils",
+    "url": "https://github.com/yieldprotocol/yieldspace-v1",
     "type": "git"
   },
   "bugs": {
-    "url": "https://github.com/yieldprotocol/yield-utils/issues"
+    "url": "https://github.com/yieldprotocol/yieldspace-v1/issues"
   },
   "engines": {
     "node": ">=10"
