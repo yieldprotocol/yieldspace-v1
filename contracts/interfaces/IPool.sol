@@ -2,9 +2,10 @@
 pragma solidity ^0.6.10;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@yield-protocol/utils/contracts/interfaces/IERC2612.sol";
 import "@yield-protocol/utils/contracts/interfaces/IDelegable.sol";
-import "./IFYDai.sol";
+import "@yield-protocol/utils/contracts/interfaces/IERC2612.sol";
+import "@yield-protocol/vault-v1/contracts/interfaces/IFYDai.sol";
+
 
 interface IPool is IDelegable, IERC20, IERC2612 {
     function dai() external view returns(IERC20);
