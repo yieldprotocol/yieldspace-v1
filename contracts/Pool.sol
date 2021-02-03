@@ -3,8 +3,8 @@ pragma solidity ^0.6.10;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@yield-protocol/utils/contracts/Delegable.sol";
-import "@yield-protocol/utils/contracts/ERC20Permit.sol";
+import "@yield-protocol/utils/contracts/access/Delegable.sol";
+import "@yield-protocol/utils/contracts/token/ERC20Permit.sol";
 import "@yield-protocol/vault-v1/contracts/interfaces/IFYDai.sol";
 import "./interfaces/IPool.sol";
 import "./YieldMath.sol";
